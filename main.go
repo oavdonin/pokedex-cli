@@ -53,17 +53,20 @@ func commandHelp() error {
 }
 
 func pokedexMap() error {
-	locations, err := api.GetLocations()
+	api.InitializeLocations()
+	err := api.GetLocations()
 	if err != nil {
 		return err
-	}
-	for _, item := range locations.Results {
-		fmt.Println(item.Name)
 	}
 	return nil
 }
 
 func pokedexMapb() error {
+	api.InitializeLocations()
+	err := api.GetLocations("down")
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
