@@ -12,19 +12,22 @@ var locations *ResponseLocations
 
 func InitializeLocations() *ResponseLocations {
 	if locations == nil {
+		fmt.Println("locations initialized!")
 		locations = &ResponseLocations{Next: apiEndpoint + "location/"}
 	}
 	return locations
 }
 
-func GetLocations(direction ...string) error {
+func GetLocations(direction string) error {
 	var pagination string
-	if len(direction) == 0 {
-		pagination = locations.Next
-	} else if direction[0] == "down" && locations.Previous != "" {
+	if direction == "back" && locations.Previous == "" || locations.Previous == "pokedex" {
+		return fmt.Errorf("you're at the 0 index go ahead first")
+	} else if direction == "back" && locations.Previous != "" {
 		pagination = locations.Previous
+	} else if direction == "next" {
+		pagination = locations.Next
 	} else {
-		return fmt.Errorf("GetLocations was called with a wrong")
+		return fmt.Errorf("error: something is fishy with GetLocations argument")
 	}
 	req, err := http.NewRequest("GET", pagination, nil)
 	if err != nil {
