@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"github.com/oavdonin/pokedex-cli"
+	"github.com/oavdonin/pokedex-cli/internal/pokeapi"
 )
 
 type config struct {
