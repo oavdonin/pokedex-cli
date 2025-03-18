@@ -2,7 +2,7 @@ package main
 
 import (
 	"time"
-	"github.com/oavdonin/pokedex-cli"
+	"github.com/oavdonin/pokedex-cli/internal/pokeapi"
 )
 
 func main() {
