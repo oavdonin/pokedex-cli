@@ -15,8 +15,8 @@ type cacheEntry struct {
 	val []byte
 }
 
-func NewCache(interval time.Duration) Cache {
-	c := Cache{
+func NewCache(interval time.Duration) *Cache {
+	c := &Cache{
 		cache: make(map[string]cacheEntry),
 		mux: &sync.Mutex{},
 	}
@@ -30,7 +30,7 @@ func (c *Cache) Add(key string, value []byte) {
 	defer c.mux.Unlock()
 	c.cache[key] = cacheEntry{
 		createdAt: time.Now().UTC(),
-		val: value,
+		val: append([]byte(nil), value...), //что за три точки
 	}
 }
 
@@ -43,6 +43,7 @@ func (c *Cache) Get(key string) ([]byte, bool) {
 
 func (c *Cache) reapLoop(interval time.Duration) {
 	ticker := time.NewTicker(interval)
+	defer ticker.Stop()
 	for range ticker.C {
 		c.reap(time.Now().UTC(), interval)
 	}
